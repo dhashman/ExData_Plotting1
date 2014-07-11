@@ -76,20 +76,15 @@ if (!file.exists(project_file)) {
         dt[[i]] <- as.numeric(dt[[i]])
     }
 }
-# Set global plot parameters.
-par(mar = c(3, 5, 1, 1))
-
 # Open png device with default 480 x 480 size and transparent background.
 png("plot3.png", bg = "transparent")
 
-plot(dt$datetime, dt$Sub_metering_1, type="l", xlab = NA,
-     ylab = NA, font = 2, font.lab = 2, cex.axis = 0.9, cex.lab = 0.9,
+# Plot datetime vs. Sub_metering_1, setting y limits for overlay.
+plot(dt$datetime, dt$Sub_metering_1, type="l", xlab = NA, ylab = "Energy sub metering",
      ylim = range(c(dt$Sub_metering_1, dt$Sub_metering_2, dt$Sub_metering_3)))
 
-# Add custom label and legend to match example.
-mtext("Energy sub metering", side = 2, line = 2.5, font = 2, cex = 0.9)
-legend("topright", names(dt)[6:8], col = c("black","red","blue"), lty = 1,
-       text.font = 2, cex = 0.9)
+# Add legend.
+legend("topright", names(dt)[6:8], col = c("black","red","blue"), lty = 1)
 
 # Overlay plot datetime vs. Sub_metering_2 in red, keeping same y limits.
 par(new=T)
