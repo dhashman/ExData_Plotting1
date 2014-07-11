@@ -76,25 +76,12 @@ if (!file.exists(project_file)) {
         dt[[i]] <- as.numeric(dt[[i]])
     }
 }
-# Set global plot parameters.
-par(mar = c(3, 3, 1, 1))
-
 # Open png device with default 480 x 480 size and transparent background.
 png("plot1.png", bg = "transparent")
 
 # Plot base histogram.
-hist(dt$Global_active_power, xlab = NA, ylab = NA, main = NA, axes = F, col = "red")
-
-# Add custom axes to match example.
-axis(side = 1, tck = -.015, labels = NA)
-axis(side = 2, tck = -.015, labels = NA)
-axis(side = 1, lwd = 0, line = -.4, cex.axis = 0.9, font = 2)
-axis(side = 2, lwd = 0, line = -.4, las = 0, cex.axis = 0.9, font = 2, pos = -0.25)
-
-# Add custom labels to match example.
-mtext("Global Active Power (kilowatts)", side = 1, line = 2, font = 2, cex = 0.9, adj = 0.53)
-mtext("Frequency", side = 2, line = 2.5, font = 2, cex = 0.9)
-mtext("Global Active Power", side = 3, line = 0, font = 2, cex = 1.2)
+hist(dt$Global_active_power, xlab = "Global Active Power (kilowatts)", 
+     main = "Global Active Power", col = "red")
 
 # Close png device.
 dev.off()
