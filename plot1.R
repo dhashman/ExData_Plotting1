@@ -4,14 +4,11 @@
 #
 # See http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption.
 #
-# If it does not already exist in the current working directory, the script extracts a cloud-based zipped
-# copy of the UCI HPC Dataset and creates a tidy dataset consisting of 8 variables for the period
-# February 1-2, 2007 (2880 observations). See README.md for additional details.
-#
-# If it didn't already exist in the current working directory, the tidy dataset is written out as a
-# comma-separated flat text file that can be subsequently read back in using fread as shown below to
-# re-create the data table for further analysis. The tidy flat file can also be imported to Excel as
-# a comma-separated text file.
+# If it doesn't already exist in the current working directory, the tidy dataset is created from
+# a cloud-based zipped copy of the UCI HPC Dataset, downloading and/or unzipping the original dataset
+# as required. If the tidy dataset is newly created, it is written out as a comma-separated flat text
+# file that can be subsequently read back in using fread as shown below to re-create the data table
+# for further analysis. The tidy flat file can also be imported to Excel as a comma-separated text file.
 #
 # To prove that the re-created data table is identical, use the compare package:
 #
@@ -19,31 +16,30 @@
 # new_dt <- fread(project_file)
 # print(compare(data.frame(new_dt), data.frame(dt)))
 #
-# The tidy dataset is then used to create a png of plot 1 (histogram of Global Active Power).
+# The tidy dataset consists of 8 variables for the period February 1-2, 2007 (2880 observations).
+# See README.md for additional details. The tidy dataset is then used to create a png of plot 1
+# (histogram of Global Active Power).
 
 # Load packages.
 library(data.table)
 library(ggplot2)
 
-# URL of cloud-based zipped copy of UCI individual electric household power consumption dataset.
-url <- "http://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
-
-# Download zipfile into the current working directory if not already downloaded.
-local_zipfile <- "./exdata-data-household_power_consumption.zip"
-if (!file.exists(local_zipfile)) {
-    download.file(url, destfile = local_zipfile, mode = "wb")
-}
-
-# Unzip file to the current working directory if not already unzipped.
-unzipped_file <- "./household_power_consumption.txt"
-if (!file.exists(unzipped_file)) {
-    unzip(local_zipfile)
-}
-
 # Create and save project data table if it does not already exist.
 project_file <- "./project1_hpc.txt"
 if (!file.exists(project_file)) {
     
+    # Unzip file to the current working directory if not already unzipped.
+    unzipped_file <- "./household_power_consumption.txt" 
+    if (!file.exists(unzipped_file)) {
+        
+        # Download zipfile into the current working directory if not already downloaded.
+        local_zipfile <- "./exdata-data-household_power_consumption.zip" 
+        if (!file.exists(local_zipfile)) {
+            url <- "http://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+            download.file(url, destfile = local_zipfile, mode = "wb")
+        }
+        unzip(local_zipfile)
+    }    
     # Create full data table.
     full_dt <- data.table(read.csv2(unzipped_file, stringsAsFactors = F))
     
@@ -81,10 +77,10 @@ if (!file.exists(project_file)) {
     }
 }
 # Set global plot parameters.
-par(mar = c(3, 3, 1, 1), bg = "transparent")
+par(mar = c(3, 3, 1, 1))
 
-# Open png device with default 480 x 480 size.
-png("plot1.png")
+# Open png device with default 480 x 480 size and transparent background.
+png("plot1.png", bg = "transparent")
 
 # Plot base histogram.
 hist(dt$Global_active_power, xlab = NA, ylab = NA, main = NA, axes = F, col = "red")
