@@ -76,18 +76,13 @@ if (!file.exists(project_file)) {
         dt[[i]] <- as.numeric(dt[[i]])
     }
 }
-# Set global plot parameters.
-par(mar = c(3, 3, 1, 1))
 
 # Open png device with default 480 x 480 size and transparent background.
 png("plot2.png", bg = "transparent")
 
 # Plot datetime vs. Global_active_power.
 plot(dt$datetime, dt$Global_active_power, type="l", xlab = NA,
-     ylab = NA, font = 2, font.lab = 2, cex.axis = 0.8, cex.lab = 0.8)
-
-# Add custom label to match example.
-mtext("Global Active Power (kilowatts)", side = 2, line = 2.5, font = 2, cex = 0.8)
+     ylab = "Global Active Power (kilowatts)")
 
 # Close png device.
 dev.off()
