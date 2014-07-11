@@ -77,43 +77,32 @@ if (!file.exists(project_file)) {
         dt[[i]] <- as.numeric(dt[[i]])
     }
 }
-# Set global plot parameters.
-par(mar = c(3, 3, 1, 1))
-
 # Open png device with default 480 x 480 size and transparent background.
 png("plot4.png", bg = "transparent")
 
 # Split sceen
-split.screen(rbind(c(0, 0.52, 0.47, 1), c(0.48, 1, 0.47, 1),
-    c(0, 0.52, 0, 0.53), c(0.48, 1, 0, 0.53)))
+split.screen(rbind(c(0, 0.51, 0.47, 1), c(0.49, 1, 0.47, 1),
+                   c(0, 0.51, 0, 0.53), c(0.49, 1, 0, 0.53)))
 
 # Plot screen 1: datetime vs. Global_active_power.
 screen(1)
 plot(dt$datetime, dt$Global_active_power, type="l", xlab = NA,
-     ylab = NA, font = 2, font.lab = 2, cex.axis = 0.7, cex.lab = 0.7)
-
-# Add custom label to match example.
-mtext("Global Active Power", side = 2, line = 2.5, font = 2, cex = 0.7)
+     ylab = "Global Active Power", cex.axis = 0.75, cex.lab = 0.75)
 
 # Plot screen 2: datetime vs. Voltage.
 screen(2)
-plot(dt$datetime, dt$Voltage, type="l", xlab = NA,
-     ylab = NA, font = 2, font.lab = 2, cex.axis = 0.7, cex.lab = 0.7)
-
-# Add custom labels to match example.
-mtext("datetime", side = 1, line = 2.2, font = 2, cex = 0.7)
-mtext("Voltage", side = 2, line = 2.5, font = 2, cex = 0.7)
+plot(dt$datetime, dt$Voltage, type="l", xlab = "datetime", ylab = "Voltage",
+     cex.axis = 0.75, cex.lab = 0.75)
 
 # Plot screen 3: datetime vs. Sub_metering_1 and set y limits for overlay.
 screen(3)
 plot(dt$datetime, dt$Sub_metering_1, type="l", xlab = NA,
-     ylab = NA, font = 2, font.lab = 2, cex.axis = 0.7, cex.lab = 0.7,
+     ylab = "Energy sub metering", cex.axis = 0.75, cex.lab = 0.75,
      ylim = range(c(dt$Sub_metering_1, dt$Sub_metering_2, dt$Sub_metering_3)))
 
-# Add custom label and legend to match example.
-mtext("Energy sub metering", side = 2, line = 2.5, font = 2, cex = 0.7)
-legend("topright", names(dt)[6:8], col = c("black","red","blue"), lty = 1,
-       text.font = 2, cex = 0.7, bty = "n")
+# Add legend.
+legend("topright", names(dt)[6:8], col = c("black","red","blue"), lty = 1, 
+       cex = 0.75, bty = "n")
 
 # Overlay plot datetime vs. Sub_metering_2 in red, keeping same y limits.
 par(new=T)
@@ -127,12 +116,8 @@ plot(dt$datetime, dt$Sub_metering_3, type="l", xlab = NA, ylab = NA, axes = F, c
 
 # Plot datetime vs. Global_reactive_power.
 screen(4)
-plot(dt$datetime, dt$Global_reactive_power, type="l", xlab = NA,
-     ylab = NA, font = 2, font.lab = 2, cex.axis = 0.7, cex.lab = 0.7)
-
-# Add custom labels to match example.
-mtext("datetime", side = 1, line = 2, font = 2.2, cex = 0.7)
-mtext("Global_reactive_power", side = 2, line = 2.5, font = 2, cex = 0.7)
+plot(dt$datetime, dt$Global_reactive_power, type="l", xlab = "datetime", 
+     ylab = "Global_reactive_power", cex.axis = 0.75, cex.lab = 0.75)
 
 # Close screens and png device.
 close.screen(all = T)
